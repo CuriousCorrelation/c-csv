@@ -6,17 +6,8 @@ project(c-csv)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_library(c-csv-lib
+add_library(c-csv
   src/reader.c
 )
 
-add_executable(${PROJECT_NAME} main.c)
-
-target_include_directories(c-csv-lib
-  PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include
-  )
-
-target_link_libraries(
-  ${PROJECT_NAME}
-  c-csv-lib
-  )
+include_directories(${CMAKE_CURRENT_LIST_DIR}/include)

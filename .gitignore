@@ -5,3 +5,4 @@ database
 .clangd
 compile_commands.json
 CMakeLists.txt.lib
+CMakeLists.txt.exc
