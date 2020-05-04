@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "csv.h"
-#include "reader.h"
-#include "status.h"
+#include "c-csv.h"
 
 int main()
 {
@@ -11,9 +9,9 @@ int main()
   CSV         csv;
   const char* file_path        = "../database/EQ310119.CSV";
   Status      operation_status = UNDEFINED;
-  const char* delimiter        = ",";
+  const char* delimiters       = ",";
 
-  operation_status = enumerate_csv_from_file(file_path, delimiter, 1, &csv);
+  operation_status = enumerate_csv_from_file(file_path, delimiters, 1, &csv);
 
   if (operation_status == SUCCESS)
     {

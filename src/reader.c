@@ -2,13 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "csv.h"
-#include "reader.h"
-#include "status.h"
+#include "c-csv.h"
 
-Status enumerate_csv_from_file(const char* file_path, const char* delimiter, const char is_headered, CSV* csv)
+Status
+enumerate_csv_from_file(const char* file_path, const char* delimiters, const char is_headered, CSV* csv)
 {
-
   Status operation_status = UNDEFINED;
   FILE*  file_handle;
 
@@ -29,7 +27,8 @@ Status enumerate_csv_from_file(const char* file_path, const char* delimiter, con
 
   if ((result = getline(&line, &line_length, file_handle) != -1))
     {
-      for (char* substring = strtok(line, delimiter); substring != NULL; substring = strtok(NULL, delimiter))
+      for (char* substring = strtok(line, delimiters); substring != NULL;
+           substring       = strtok(NULL, delimiters))
         {
           if (substring)
             {
@@ -76,8 +75,8 @@ Status enumerate_csv_from_file(const char* file_path, const char* delimiter, con
 
       if ((result = getline(&line, &line_length, file_handle) != -1))
         {
-          for (char* substring = strtok(line, delimiter); substring != NULL;
-               substring       = strtok(NULL, delimiter))
+          for (char* substring = strtok(line, delimiters); substring != NULL;
+               substring       = strtok(NULL, delimiters))
             {
               if (substring)
                 {
@@ -128,7 +127,8 @@ Status enumerate_csv_from_file(const char* file_path, const char* delimiter, con
         }
 
       table_column_index = 0;
-      for (char* substring = strtok(line, delimiter); substring != NULL; substring = strtok(NULL, delimiter))
+      for (char* substring = strtok(line, delimiters); substring != NULL;
+           substring       = strtok(NULL, delimiters))
         {
           if (table_column_index >= total_columns)
             {
