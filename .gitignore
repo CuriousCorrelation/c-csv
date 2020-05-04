@@ -1,5 +1,7 @@
 build
 debug
+database
 *.sh
 .clangd
 compile_commands.json
+CMakeLists.txt.lib
