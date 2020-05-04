@@ -7,14 +7,14 @@
 Status
 enumerate_csv_from_file(const char* file_path, const char* delimiters, const char is_headered, CSV* csv)
 {
-  Status operation_status = UNDEFINED;
+  Status operation_status = CCSV_UNDEFINED;
   FILE*  file_handle;
 
   file_handle = fopen(file_path, "r");
 
   if (!file_handle)
     {
-      return FILE_NOT_FOUND;
+      return CCSV_FILE_NOT_FOUND;
     }
 
   char*   line        = NULL;
@@ -70,7 +70,7 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
           free_csv(csv);
           if (line)
             free(line);
-          return MEMORY_ALLOCATION_FAILURE;
+          return CCSV_MEMORY_ALLOCATION_FAILURE;
         }
 
       if ((result = getline(&line, &line_length, file_handle) != -1))
@@ -88,7 +88,7 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
                       fclose(file_handle);
                       csv->number_of_rows = 0;
                       free_csv(csv);
-                      return MEMORY_ALLOCATION_FAILURE;
+                      return CCSV_MEMORY_ALLOCATION_FAILURE;
                     }
                   else
                     {
@@ -109,7 +109,7 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
       fclose(file_handle);
       csv->number_of_rows = 0;
       free_csv(csv);
-      return MEMORY_ALLOCATION_FAILURE;
+      return CCSV_MEMORY_ALLOCATION_FAILURE;
     }
 
   while ((result = getline(&line, &line_length, file_handle) != -1))
@@ -123,7 +123,7 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
           fclose(file_handle);
           csv->number_of_rows = table_row_index + 1;
           free_csv(csv);
-          return MEMORY_ALLOCATION_FAILURE;
+          return CCSV_MEMORY_ALLOCATION_FAILURE;
         }
 
       table_column_index = 0;
@@ -137,7 +137,7 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
               fclose(file_handle);
               csv->number_of_rows = table_row_index + 1;
               free_csv(csv);
-              return HEADER_TABLE_COLUMNS_MISMATCH;
+              return CCSV_HEADER_TABLE_COLUMNS_MISMATCH;
             }
 
           if (substring)
@@ -151,7 +151,7 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
                   fclose(file_handle);
                   csv->number_of_rows = table_row_index + 1;
                   free_csv(csv);
-                  return MEMORY_ALLOCATION_FAILURE;
+                  return CCSV_MEMORY_ALLOCATION_FAILURE;
                 }
               else
                 {
@@ -168,7 +168,7 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
   if (line)
     free(line);
 
-  operation_status = SUCCESS;
+  operation_status = CCSV_SUCCESS;
 
   return operation_status;
 }

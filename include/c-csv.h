@@ -3,14 +3,14 @@
 
 typedef enum Status
 {
-  UNDEFINED           = -1,
-  SUCCESS             = 00,
-  FILE_NOT_FOUND      = -2,
-  DIRECTORY_NOT_FOUND = -3,
+  CCSV_UNDEFINED           = -1,
+  CCSV_SUCCESS             = 00,
+  CCSV_FILE_NOT_FOUND      = -2,
+  CCSV_DIRECTORY_NOT_FOUND = -3,
 
-  DELIMITER_NOT_FOUND           = -10,
-  HEADER_TABLE_COLUMNS_MISMATCH = -11,
-  MEMORY_ALLOCATION_FAILURE     = -12
+  CCSV_DELIMITER_NOT_FOUND           = -10,
+  CCSV_HEADER_TABLE_COLUMNS_MISMATCH = -11,
+  CCSV_MEMORY_ALLOCATION_FAILURE     = -12
 
 } Status;
 
