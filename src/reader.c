@@ -67,6 +67,10 @@ Status enumerate_csv_from_file(const char* file_path, const char* delimiter, con
 
       if (!csv->header)
         {
+          fclose(file_handle);
+          free_csv(csv);
+          if (line)
+            free(line);
           return MEMORY_ALLOCATION_FAILURE;
         }
 
@@ -80,6 +84,11 @@ Status enumerate_csv_from_file(const char* file_path, const char* delimiter, con
                   csv->header[header_index] = malloc(sizeof(char) * (strlen(substring) + 1));
                   if (!(csv->header[header_index]))
                     {
+                      if (line)
+                        free(line);
+                      fclose(file_handle);
+                      csv->number_of_rows = 0;
+                      free_csv(csv);
                       return MEMORY_ALLOCATION_FAILURE;
                     }
                   else
@@ -96,28 +105,52 @@ Status enumerate_csv_from_file(const char* file_path, const char* delimiter, con
 
   if (!csv->table)
     {
+      if (line)
+        free(line);
+      fclose(file_handle);
+      csv->number_of_rows = 0;
+      free_csv(csv);
       return MEMORY_ALLOCATION_FAILURE;
     }
 
   while ((result = getline(&line, &line_length, file_handle) != -1))
     {
-
       csv->table[table_row_index] = malloc(sizeof(Cell) * total_columns);
 
       if (!csv->table[table_row_index])
         {
+          if (line)
+            free(line);
+          fclose(file_handle);
+          csv->number_of_rows = table_row_index + 1;
+          free_csv(csv);
           return MEMORY_ALLOCATION_FAILURE;
         }
 
       table_column_index = 0;
       for (char* substring = strtok(line, delimiter); substring != NULL; substring = strtok(NULL, delimiter))
         {
+          if (table_column_index >= total_columns)
+            {
+              if (line)
+                free(line);
+              fclose(file_handle);
+              csv->number_of_rows = table_row_index + 1;
+              free_csv(csv);
+              return HEADER_TABLE_COLUMNS_MISMATCH;
+            }
+
           if (substring)
             {
               csv->table[table_row_index][table_column_index] =
                   malloc(sizeof(char) * (strlen(substring) + 1));
               if (!csv->table[table_row_index][table_column_index])
                 {
+                  if (line)
+                    free(line);
+                  fclose(file_handle);
+                  csv->number_of_rows = table_row_index + 1;
+                  free_csv(csv);
                   return MEMORY_ALLOCATION_FAILURE;
                 }
               else

@@ -15,17 +15,21 @@ int main()
 
   operation_status = enumerate_csv_from_file(file_path, delimiter, 1, &csv);
 
-  printf("csv.number_of_columns: %d\n", csv.number_of_columns);
-  printf("csv.number_of_rows: %d\n", csv.number_of_rows);
-  printf("Operation status: %d\n", operation_status);
-
-  for (int i = 0; i < csv.number_of_rows; ++i)
+  if (operation_status == SUCCESS)
     {
-      for (int j = 0; j < csv.number_of_columns; ++j)
-        {
-          printf("%s |", csv.table[i][j]);
-        }
-    }
 
-  free_csv(&csv);
+      printf("csv.number_of_columns: %d\n", csv.number_of_columns);
+      printf("csv.number_of_rows: %d\n", csv.number_of_rows);
+      printf("Operation status: %d\n", operation_status);
+
+      for (int i = 0; i < csv.number_of_rows; ++i)
+        {
+          for (int j = 0; j < csv.number_of_columns; ++j)
+            {
+              printf("%s |", csv.table[i][j]);
+            }
+        }
+
+      free_csv(&csv);
+    }
 }
