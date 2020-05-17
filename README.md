@@ -4,18 +4,19 @@ A simple csv parser written in C.
 
 ## Example
 
-`c-csv` implements two major functions
+`c-csv.h` exports two functions
 
 1. `enumerate_csv_from_file` which takes in 4 parameters:
    1. Path to the `csv` file.
    2. Delimiter used to seperate cells/columns of the rows.
    3. If the file has a header. Set it to `1` if it does, `0` otherwise.
    4. An instance of `CSV` struct passed by reference.
+
    and returns `Status`.
+
 2. `free_csv` which takes in one parameters, the `CSV` enumerated using `enumerate_csv_from_file`.
 
 ## Minimal usage
-
 ```c
 #include <stdio.h>
 
