@@ -37,17 +37,35 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
         }
     }
 
+  while ((result = getline(&line, &line_length, file_handle) != -1))
+    {
+      int current_number_of_columns = 0;
+      for (char* substring = strtok(line, delimiters); substring != NULL;
+           substring       = strtok(NULL, delimiters))
+        {
+          if (substring)
+            {
+              ++current_number_of_columns;
+            }
+        }
+
+      if (current_number_of_columns != total_columns)
+        {
+          if (line)
+            free(line);
+          fclose(file_handle);
+          return CCSV_HEADER_TABLE_COLUMNS_MISMATCH;
+        }
+    }
+
+  rewind(file_handle);
+
   while ((ch = fgetc(file_handle)) != EOF)
     {
       if (ch == '\n')
         {
           ++total_rows;
         }
-    }
-
-  if (!is_headered)
-    {
-      total_rows += 1;
     }
 
   rewind(file_handle);
@@ -160,6 +178,7 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
                 }
             }
         }
+
       ++table_row_index;
     }
 
@@ -175,16 +194,19 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
 
 void free_csv(CSV* csv)
 {
-  if (csv->header)
+  if (csv->is_headered)
     {
-      for (int i = 0; i < csv->number_of_columns; ++i)
+      if (csv->header)
         {
-          if (csv->header[i])
+          for (int i = 0; i < csv->number_of_columns; ++i)
             {
-              free(csv->header[i]);
+              if (csv->header[i])
+                {
+                  free(csv->header[i]);
+                }
             }
+          free(csv->header);
         }
-      free(csv->header);
     }
   if (csv->table)
     {
