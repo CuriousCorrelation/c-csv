@@ -194,16 +194,19 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
 
 void free_csv(CSV* csv)
 {
-  if (csv->header)
+  if (csv->is_headered)
     {
-      for (int i = 0; i < csv->number_of_columns; ++i)
+      if (csv->header)
         {
-          if (csv->header[i])
+          for (int i = 0; i < csv->number_of_columns; ++i)
             {
-              free(csv->header[i]);
+              if (csv->header[i])
+                {
+                  free(csv->header[i]);
+                }
             }
+          free(csv->header);
         }
-      free(csv->header);
     }
   if (csv->table)
     {
