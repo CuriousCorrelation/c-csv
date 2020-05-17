@@ -1,6 +1,10 @@
 # c-csv
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 A simple csv parser written in C.
+
+Go to `CuriousCorrelation/c-csv-test` repo for a minimal test suite.
 
 ## Example
 
