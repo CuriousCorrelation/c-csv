@@ -35,6 +35,7 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
               ++total_columns;
             }
         }
+      ++total_rows;
     }
 
   while ((result = getline(&line, &line_length, file_handle) != -1))
@@ -56,16 +57,7 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
           fclose(file_handle);
           return CCSV_HEADER_TABLE_COLUMNS_MISMATCH;
         }
-    }
-
-  rewind(file_handle);
-
-  while ((ch = fgetc(file_handle)) != EOF)
-    {
-      if (ch == '\n')
-        {
-          ++total_rows;
-        }
+      ++total_rows;
     }
 
   rewind(file_handle);
