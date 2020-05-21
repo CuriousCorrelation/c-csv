@@ -2,11 +2,13 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
+[![Pipeline status](https://gitlab.com/CuriousCorrelation/c-csv/badges/master/pipeline.svg)](https://gitlab.com/CuriousCorrelation/c-csv/commits/master)
+
 A simple csv parser written in C.
 
 Go to `CuriousCorrelation/c-csv-test` repo for a minimal test suite.
 
-## Example
+## Minimal setup
 
 `c-csv.h` exports two functions
 
@@ -24,16 +26,27 @@ Status enumerate_csv_from_file(const char* file_path,            // Path of the 
 void free_csv(CSV* csv);
 ```
 
-## Minimal setup
+For any typical csv file the following code will work without any tweaking.
 
-```
+```c
+#include "c-csv.h"
+
 const char* file_path = "example.csv";
 CSV    csv_data;
 Status read_status = CCSV_UNDEFINED;
 
 read_status = enumerate_csv_from_file(file_path, ",", "\"", "\"", 1, &csv_data);
 
-free(&csv_data);
+if(read_status != CCSV_SUCCESS)
+    {
+        // handle error
+    }
+else
+    {
+        // do stuff
+
+        free(&csv_data);
+    }
 ```
 
 ## Minimal complete usage
