@@ -1,0 +1,16 @@
+image: gcc
+
+before_script:
+  - git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/CuriousCorrelation/c-csv-test.git".insteadOf "git@gitlab.com:CuriousCorrelation/c-csv-test.git"
+  - git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/CuriousCorrelation/c-csv.git".insteadOf "git@gitlab.com:CuriousCorrelation/c-csv.git"
+  - apt-get update && apt-get -y install cmake
+
+test:
+  stage: test
+  script:
+    - git clone --recurse-submodules git@gitlab.com:CuriousCorrelation/c-csv.git
+    - cd c-csv
+    - git pull origin master
+    - git submodule foreach git pull origin master
+    - cd c-csv-test
+    - ./run.sh
