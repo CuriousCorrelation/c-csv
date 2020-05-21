@@ -8,9 +8,9 @@ before_script:
 test:
   stage: test
   script:
-    - git clone --recurse-submodules git@gitlab.com:CuriousCorrelation/c-csv.git
+    - git clone git@gitlab.com:CuriousCorrelation/c-csv.git
     - cd c-csv
-    - git pull origin master
+    - git submodule update --init --recursive
     - git submodule foreach git pull origin master
     - cd c-csv-test
     - ./run.sh
