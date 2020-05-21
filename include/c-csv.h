@@ -26,8 +26,14 @@ typedef struct CSV
 
 } CSV;
 
-Status
-enumerate_csv_from_file(const char* file_path, const char* delimiters, const char is_headered, CSV* csv);
+Status enumerate_csv_from_file(const char* file_path,            // Path of the file.
+                               const char* delimiters,           // Delimiter that seperates columns.
+                               const char* substring_openblock,  // Open block to seperate.
+                               const char* substring_closeblock, // Close block to seperate.
+                               const char  is_headered,          // If the file is headered or not.
+                               CSV*        csv                   // The CSV type storage variable.
+);
+
 void free_csv(CSV* csv);
 
 #endif // C_CSV_H

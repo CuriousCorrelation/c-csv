@@ -1,0 +1,3 @@
+[submodule "c-csv-test"]
+	path = c-csv-test
+	url = git@gitlab.com:CuriousCorrelation/c-csv-test.git

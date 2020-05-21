@@ -3,9 +3,14 @@
 #include <string.h>
 
 #include "c-csv.h"
+#include "strtokoc.h"
 
-Status
-enumerate_csv_from_file(const char* file_path, const char* delimiters, const char is_headered, CSV* csv)
+Status enumerate_csv_from_file(const char* file_path,
+                               const char* delimiters,
+                               const char* substring_openblock,
+                               const char* substring_closeblock,
+                               const char  is_headered,
+                               CSV*        csv)
 {
   Status operation_status = CCSV_UNDEFINED;
   FILE*  file_handle;
@@ -27,8 +32,9 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
 
   if ((result = getline(&line, &line_length, file_handle) != -1))
     {
-      for (char* substring = strtok(line, delimiters); substring != NULL;
-           substring       = strtok(NULL, delimiters))
+      for (char* substring = strtokoc(line, delimiters, substring_openblock, substring_closeblock);
+           substring != NULL;
+           substring = strtokoc(NULL, delimiters, substring_openblock, substring_closeblock))
         {
           if (substring)
             {
@@ -41,8 +47,9 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
   while ((result = getline(&line, &line_length, file_handle) != -1))
     {
       int current_number_of_columns = 0;
-      for (char* substring = strtok(line, delimiters); substring != NULL;
-           substring       = strtok(NULL, delimiters))
+      for (char* substring = strtokoc(line, delimiters, substring_openblock, substring_closeblock);
+           substring != NULL;
+           substring = strtokoc(NULL, delimiters, substring_openblock, substring_closeblock))
         {
           if (substring)
             {
@@ -85,8 +92,9 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
 
       if ((result = getline(&line, &line_length, file_handle) != -1))
         {
-          for (char* substring = strtok(line, delimiters); substring != NULL;
-               substring       = strtok(NULL, delimiters))
+          for (char* substring = strtokoc(line, delimiters, substring_openblock, substring_closeblock);
+               substring != NULL;
+               substring = strtokoc(NULL, delimiters, substring_openblock, substring_closeblock))
             {
               if (substring)
                 {
@@ -137,8 +145,9 @@ enumerate_csv_from_file(const char* file_path, const char* delimiters, const cha
         }
 
       table_column_index = 0;
-      for (char* substring = strtok(line, delimiters); substring != NULL;
-           substring       = strtok(NULL, delimiters))
+      for (char* substring = strtokoc(line, delimiters, substring_openblock, substring_closeblock);
+           substring != NULL;
+           substring = strtokoc(NULL, delimiters, substring_openblock, substring_closeblock))
         {
           if (table_column_index >= total_columns)
             {

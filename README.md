@@ -13,8 +13,10 @@ Go to `CuriousCorrelation/c-csv-test` repo for a minimal test suite.
 1. `enumerate_csv_from_file` which takes in 4 parameters:
    1. Path to the `csv` file.
    2. Delimiter used to seperate cells/columns of the rows.
-   3. If the file has a header. Set it to `1` if it does, `0` otherwise.
-   4. An instance of `CSV` struct passed by reference.
+   3. Open block. eg. "company, address". The comma here doesn't seperate the columns but a string, so setting openblock to "\"" will skip this one if the delimiter is ",".
+   4. Close block. Same as above but for closing the string. Should be same as the one set above. i.e ""\".
+   5. If the file has a header. Set it to `1` if it does, `0` otherwise.
+   6. An instance of `CSV` struct passed by reference.
 
    and returns `Status`.
 
@@ -34,7 +36,7 @@ void test()
   CSV    apple_historical;
   Status read_status = CCSV_UNDEFINED;
 
-  read_status = enumerate_csv_from_file(file_path, ",", 1, &apple_historical);
+  read_status = enumerate_csv_from_file(file_path, ",", "\"", "\"", 1, &apple_historical);
 
   if (read_status != CCSV_SUCCESS)
     {
@@ -69,20 +71,19 @@ void test()
 ## c-csv.h
 
 ```c
-
 #ifndef C_CSV_H
 #define C_CSV_H
 
 typedef enum Status
 {
-  UNDEFINED           = -1,
-  SUCCESS             = 00,
-  FILE_NOT_FOUND      = -2,
-  DIRECTORY_NOT_FOUND = -3,
+  CCSV_UNDEFINED           = -1,
+  CCSV_SUCCESS             = 00,
+  CCSV_FILE_NOT_FOUND      = -2,
+  CCSV_DIRECTORY_NOT_FOUND = -3,
 
-  DELIMITER_NOT_FOUND           = -10,
-  HEADER_TABLE_COLUMNS_MISMATCH = -11,
-  MEMORY_ALLOCATION_FAILURE     = -12
+  CCSV_DELIMITER_NOT_FOUND           = -10,
+  CCSV_HEADER_TABLE_COLUMNS_MISMATCH = -11,
+  CCSV_MEMORY_ALLOCATION_FAILURE     = -12
 
 } Status;
 
@@ -98,8 +99,14 @@ typedef struct CSV
 
 } CSV;
 
-Status
-enumerate_csv_from_file(const char* file_path, const char* delimiters, const char is_headered, CSV* csv);
+Status enumerate_csv_from_file(const char* file_path,            // Path of the file.
+                               const char* delimiters,           // Delimiter that seperates columns.
+                               const char* substring_openblock,  // Open block to seperate.
+                               const char* substring_closeblock, // Close block to seperate.
+                               const char  is_headered,          // If the file is headered or not.
+                               CSV*        csv                   // The CSV type storage variable.
+);
+
 void free_csv(CSV* csv);
 
 #endif // C_CSV_H
