@@ -1,12 +1,9 @@
 # c-csv
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-
 [![Pipeline status](https://gitlab.com/CuriousCorrelation/c-csv/badges/master/pipeline.svg)](https://gitlab.com/CuriousCorrelation/c-csv/commits/master)
 
 A simple csv parser written in C.
-
-Go to `CuriousCorrelation/c-csv-test` repo for a minimal test suite.
 
 ## Minimal setup
 
@@ -26,7 +23,7 @@ Status enumerate_csv_from_file(const char* file_path,            // Path of the 
 void free_csv(CSV* csv);
 ```
 
-For any typical csv file the following code will work without any tweaking.
+For any typical `.csv` file the following code will work without any tweaks.
 
 ```c
 #include "c-csv.h"
@@ -151,9 +148,7 @@ year ,industry_name          ,grp                         ,unit
 2011 ,Construction           ,"Sales, government funding" ,1864
 ```
 
-here if we set `","` as the `delimiter`
-
-*without* setting `substring_openblock` and `substring_closeblock` this is what we'll get:
+here if we set `","` as the `delimiter` **without** setting `substring_openblock` and `substring_closeblock` this is what we'll get:
 
 ```
 year | industry_name | grp       | unit                | NULL
@@ -162,13 +157,7 @@ year | industry_name | grp       | unit                | NULL
 2011 | Construction  | "Sales,   | government funding" | 1864
 ```
 
-But if we do this
-
-`delimiter` set to `","`
-
-`substring_openblock` set to `"\""`
-
-`substring_closeblock` set to `"\""`
+But if set `delimiter` to `","`, `substring_openblock` to `"\""` and `substring_closeblock` to `"\""`
 
 we'll get this
 
