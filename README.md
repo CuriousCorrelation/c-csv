@@ -23,7 +23,7 @@ Status enumerate_csv_from_file(const char* file_path,            // Path of the 
 void free_csv(CSV* csv);
 ```
 
-For any typical `.csv` file the following code will work without any tweaks.
+For any typical `.csv` file the following code will work out of the box.
 
 ```c
 #include "c-csv.h"
@@ -138,7 +138,7 @@ void free_csv(CSV* csv);
 
 ## Open and Close blocks
 
-* Open block/Close block: `substring_openblock` and `substring_closeblock` are pair of string in which the delimiter will be ignores.
+`substring_openblock` and `substring_closeblock` are pair of string **inside of** which the **delimiters will be ignored**.
 
 For example
 ```csv
